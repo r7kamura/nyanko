@@ -6,6 +6,10 @@ module Nyanko
       Module.new { include Nyanko::Unit }
     end
 
+    let(:view) do
+      Class.new { include Nyanko::Helper }.new
+    end
+
     describe ".scope" do
       specify "given scope is recorded to used scope list" do
         unit.scope(:view) { }
@@ -45,6 +49,21 @@ module Nyanko
           "test"
         end
         unit.shared_methods[:test].call.should == "test"
+      end
+    end
+
+    describe ".helpers" do
+      before do
+        unit.stub(:name => "ExampleUnit")
+      end
+
+      it "provides interface for unit to define helper methods" do
+        unit.helpers do
+          def test
+            "test"
+          end
+        end
+        view.__example_unit_test.should == "test"
       end
     end
   end

@@ -23,6 +23,10 @@ module Nyanko
         shared_methods[label] = block
       end
 
+      def helpers(&block)
+        Helper.define(name, &block)
+      end
+
       def functions
         scopes[current_scope]
       end
