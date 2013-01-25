@@ -38,5 +38,14 @@ module Nyanko
         unit.scopes[ActionView::Base][:test].call.should == "test"
       end
     end
+
+    describe ".shared" do
+      it "stroes given block with given label" do
+        unit.shared(:test) do
+          "test"
+        end
+        unit.shared_methods[:test].call.should == "test"
+      end
+    end
   end
 end

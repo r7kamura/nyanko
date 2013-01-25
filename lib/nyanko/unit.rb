@@ -19,12 +19,20 @@ module Nyanko
         scopes[current_scope][label] = block
       end
 
+      def shared(label, &block)
+        shared_methods[label] = block
+      end
+
       def functions
         scopes[current_scope]
       end
 
       def scopes
         @scopes ||= {}
+      end
+
+      def shared_methods
+        @shared_methods ||= {}
       end
     end
   end
