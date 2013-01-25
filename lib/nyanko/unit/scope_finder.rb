@@ -19,7 +19,7 @@ module Nyanko
         case
         when class?
           @identifier
-        when label?
+        when label
           label
         else
           @identifier.to_s.constantize
@@ -31,10 +31,6 @@ module Nyanko
 
       def class?
         @identifier.is_a?(Class)
-      end
-
-      def label?
-        LABEL_SCOPE_MAP.keys.include?(@identifier)
       end
 
       def label
