@@ -10,6 +10,48 @@ module Nyanko
       Class.new { include Nyanko::Helper }.new
     end
 
+    describe ".active_if" do
+      before do
+        ActiveIf.define(:true) { true }
+        ActiveIf.define(:false) { false }
+      end
+
+      after do
+        ActiveIf.clear
+      end
+
+      subject { unit.active?(view) }
+
+      context "when labels are specified" do
+        before do
+          unit.active_if(:true, :false)
+        end
+        specify "all of defined conditions must pass" do
+          should be_false
+        end
+      end
+
+      context "when block is passed" do
+        before do
+          unit.active_if(:true) { false }
+        end
+        specify "all of defined conditions and block must pass" do
+          should be_false
+        end
+      end
+
+      context "when any is specified" do
+        before do
+          unit.instance_eval do
+            active_if any(:true, :false)
+          end
+        end
+        specify "any of conditions must pass" do
+          should be_true
+        end
+      end
+    end
+
     describe ".scope" do
       specify "given scope is recorded to used scope list" do
         unit.scope(:view) { }
