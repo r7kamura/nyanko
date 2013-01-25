@@ -18,7 +18,7 @@ module Nyanko
       end
 
       def function(label, &block)
-        scopes[current_scope][label] = block
+        functions[label] = block
       end
 
       def shared(label, &block)
