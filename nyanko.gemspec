@@ -20,4 +20,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "pry"
   gem.add_development_dependency "rspec-rails", "2.12.2"
+  gem.add_development_dependency "simplecov"
 end
