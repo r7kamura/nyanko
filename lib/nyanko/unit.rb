@@ -9,17 +9,22 @@ module Nyanko
 
       def scope(identifier)
         self.current_scope = ScopeFinder.find(identifier)
+        scopes[current_scope] ||= {}
         yield
       ensure
         self.current_scope = nil
       end
 
       def function(label, &block)
-        functions[current_scope][label] = block
+        scopes[current_scope][label] = block
       end
 
       def functions
-        @functions ||= Hash.new {|hash, key| hash[key] = {} }
+        scopes[current_scope]
+      end
+
+      def scopes
+        @scopes ||= {}
       end
     end
   end

@@ -7,6 +7,11 @@ module Nyanko
     end
 
     describe ".scope" do
+      specify "given scope is recorded to used scope list" do
+        unit.scope(:view) { }
+        unit.scopes.keys.should == [ActionView::Base]
+      end
+
       context "in the scoped block" do
         specify "current_scope returns given scope" do
           unit.scope(:view) do
@@ -30,7 +35,7 @@ module Nyanko
             "test"
           end
         end
-        unit.functions[ActionView::Base][:test].call.should == "test"
+        unit.scopes[ActionView::Base][:test].call.should == "test"
       end
     end
   end
