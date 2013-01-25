@@ -13,6 +13,14 @@ module Nyanko
       ensure
         self.current_scope = nil
       end
+
+      def function(label, &block)
+        functions[current_scope][label] = block
+      end
+
+      def functions
+        @functions ||= Hash.new {|hash, key| hash[key] = {} }
+      end
     end
   end
 end

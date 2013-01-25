@@ -22,5 +22,16 @@ module Nyanko
         end
       end
     end
+
+    describe ".function" do
+      it "stores given block with current_scope and given label" do
+        unit.scope(:view) do
+          unit.function(:test) do
+            "test"
+          end
+        end
+        unit.functions[ActionView::Base][:test].call.should == "test"
+      end
+    end
   end
 end
