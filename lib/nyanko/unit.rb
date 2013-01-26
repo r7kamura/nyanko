@@ -42,10 +42,11 @@ module Nyanko
       end
 
       def find_function(identifier, label)
-        scope      = ScopeFinder.find(identifier)
+        klass      = ScopeFinder.find(identifier)
         candidates = scopes.keys
-        target     = scope.ancestors.find {|klass| scopes[klass] }
-        scopes[target][label]
+        target     = klass.ancestors.find {|klass| scopes[klass] }
+        scope      = scopes[target]
+        scope[label] if scope
       end
 
       def functions

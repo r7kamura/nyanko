@@ -11,7 +11,7 @@ module Nyanko
       end
 
       def find
-        @options[:functions].each do |unit_name, label|
+        @options[:functions].find do |unit_name, label|
           unit       = find_unit(unit_name)
           identifier = @options[:as] || @context.class
           next unless unit.active?(@context, @options[:active_if_options])
