@@ -17,7 +17,11 @@ module Nyanko
     end
 
     def load
-      load_from_cache || load_from_file
+      loaded? ? load_from_cache : load_from_file
+    end
+
+    def loaded?
+      cache[@name] != nil
     end
 
     def load_from_cache
@@ -27,6 +31,9 @@ module Nyanko
     def load_from_file
       require_unit_files
       cache[@name] = constantize
+    rescue Exception
+      cache[@name] = false
+      nil
     end
 
     def require_unit_files
@@ -43,7 +50,6 @@ module Nyanko
 
     def constantize
       @name.to_s.camelize.constantize
-    rescue NameError
     end
 
     def cache
