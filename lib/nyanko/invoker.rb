@@ -8,6 +8,8 @@ module Nyanko
       function = FunctionFinder.find(self, options)
       unit_locals_stack.push(options.locals)
       function.invoke(self, options.invoke_options) if function
+    rescue Exception
+      yield if block_given?
     ensure
       unit_locals_stack.pop
     end

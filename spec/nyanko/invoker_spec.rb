@@ -16,7 +16,6 @@ module Nyanko
       end
 
       it "invokes with locals option" do
-        expect { view.invoke(:example_unit, :locals) }.to raise_error(NameError)
         view.invoke(:example_unit, :locals, :locals => { :key => "value" }).should == "value"
       end
 
@@ -37,6 +36,20 @@ module Nyanko
       context "when 2 functions are specified" do
         it "invokes first active function" do
           view.invoke([:inactive_unit, :inactive], [:example_unit, :test]).should == "test"
+        end
+      end
+
+      context "when an error is raised in invoking" do
+        context "when block is given" do
+          it "calls given block as a fallback" do
+            view.invoke(:example_unit, :error) { "error" }.should == "error"
+          end
+        end
+
+        context "when no block is given" do
+          it "rescues the error and does nothing" do
+            view.invoke(:example_unit, :error).should == nil
+          end
         end
       end
     end

@@ -35,5 +35,9 @@ module ExampleUnit
     function(:shared) do
       shared("args")
     end
+
+    function(:error) do
+      raise_no_method_error
+    end
   end
 end
