@@ -3,7 +3,11 @@ require "spec_helper"
 module Nyanko
   describe Invoker do
     let(:view) do
-      Class.new(ActionView::Base) { include Nyanko::Invoker }.new
+      Class.new(ActionView::Base) do
+        include Nyanko::Invoker
+        include Nyanko::Helper
+        include Nyanko::UnitProxyProvider
+      end.new
     end
 
     describe "#invoke" do
@@ -25,6 +29,10 @@ module Nyanko
 
       it "invokes with shared method" do
         view.invoke(:example_unit, :shared).should == "shared args"
+      end
+
+      it "invokes with helper method in view context" do
+        view.invoke(:example_unit, :helper).should == "helper"
       end
 
       context "when dependent unit is inactive" do

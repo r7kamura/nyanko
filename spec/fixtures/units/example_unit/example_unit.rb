@@ -39,5 +39,15 @@ module ExampleUnit
     function(:error) do
       raise_no_method_error
     end
+
+    function(:helper) do
+      unit.helper
+    end
+  end
+
+  helpers do
+    def helper
+      "helper"
+    end
   end
 end

@@ -41,6 +41,10 @@ module Nyanko
         ActiveIf::Any.new(*labels)
       end
 
+      def to_key
+        name.underscore.to_sym
+      end
+
       def find_function(identifier, label)
         klass      = ScopeFinder.find(identifier)
         candidates = scopes.keys
