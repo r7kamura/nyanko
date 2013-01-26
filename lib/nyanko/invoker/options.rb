@@ -19,11 +19,6 @@ module Nyanko
         send(key)
       end
 
-      # To be used for Nyanko::Loader.requested(unit_names)
-      def unit_names
-        @args.is_a?(Array) ? @args.transpose[0] : [@args[0]]
-      end
-
       def functions
         @args.first.is_a?(Array) ? @args : [[@args[0], @args[1]]]
       end
