@@ -22,6 +22,12 @@ module Nyanko
 
       subject { unit.active?(view) }
 
+      context "in default configuration" do
+        it "is configured to return always true" do
+          should be_true
+        end
+      end
+
       context "when labels are specified" do
         before do
           unit.active_if(:true, :false)
