@@ -29,6 +29,12 @@ module Nyanko
           view.invoke(:example_unit, :test, :if => :inactive_unit).should == nil
         end
       end
+
+      context "when 2 functions are specified" do
+        it "invokes first active function" do
+          view.invoke([:inactive_unit, :inactive], [:example_unit, :test]).should == "test"
+        end
+      end
     end
   end
 end

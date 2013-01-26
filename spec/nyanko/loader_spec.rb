@@ -16,6 +16,10 @@ module Nyanko
       end
 
       context "when loader has ever loaded specified unit" do
+        before do
+          described_class.cache.clear
+        end
+
         it "load unit from cache" do
           described_class.any_instance.should_receive(:require).and_call_original
           described_class.load(:example_unit)
