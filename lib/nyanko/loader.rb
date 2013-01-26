@@ -6,6 +6,10 @@ module Nyanko
       def load(unit_name)
         new(unit_name).load
       end
+
+      def cache
+        @cache ||= {}
+      end
     end
 
     def initialize(name)
@@ -13,8 +17,16 @@ module Nyanko
     end
 
     def load
+      load_from_cache || load_from_file
+    end
+
+    def load_from_cache
+      cache[@name]
+    end
+
+    def load_from_file
       require_unit_files
-      constantize
+      cache[@name] = constantize
     end
 
     def require_unit_files
@@ -32,6 +44,10 @@ module Nyanko
     def constantize
       @name.to_s.camelize.constantize
     rescue NameError
+    end
+
+    def cache
+      self.class.cache
     end
   end
 end
