@@ -2,7 +2,7 @@ module Nyanko
   module Helper
     class << self
       def define(class_name, &block)
-        prefix = %{__#{class_name.underscore.gsub("/", "_")}_}
+        prefix = UnitProxy.generate_prefix(class_name)
         define_methods_with_prefix(prefix, &block)
       end
 

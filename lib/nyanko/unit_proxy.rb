@@ -4,6 +4,10 @@ module Nyanko
   class UnitProxy
     attr_reader :unit
 
+    def self.generate_prefix(name)
+      %{__#{name.underscore.gsub("/", "_")}_}
+    end
+
     def initialize(unit, context)
       @unit    = unit
       @context = context
@@ -16,7 +20,7 @@ module Nyanko
     private
 
     def prefix
-      "__#{@unit.to_key}_"
+      self.class.generate_prefix(@unit.name)
     end
 
     def method_missing(method_name, *args, &block)
