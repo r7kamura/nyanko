@@ -4,6 +4,10 @@ module Nyanko
   module Unit
     extend ActiveSupport::Concern
 
+    included do
+      active_if { true }
+    end
+
     module ClassMethods
       attr_accessor :current_scope
 
@@ -18,7 +22,7 @@ module Nyanko
       end
 
       def function(label, &block)
-        functions[label] = block
+        functions[label] = Function.new(&block)
       end
 
       def shared(label, &block)
@@ -35,6 +39,13 @@ module Nyanko
 
       def any(*labels)
         ActiveIf::Any.new(*labels)
+      end
+
+      def find_function(identifier, label)
+        scope      = ScopeFinder.find(identifier)
+        candidates = scopes.keys
+        target     = scope.ancestors.find {|klass| scopes[klass] }
+        scopes[target][label]
       end
 
       def functions

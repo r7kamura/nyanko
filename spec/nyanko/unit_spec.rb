@@ -81,7 +81,7 @@ module Nyanko
             "test"
           end
         end
-        unit.scopes[ActionView::Base][:test].call.should == "test"
+        unit.scopes[ActionView::Base][:test].block.should === "test"
       end
     end
 
