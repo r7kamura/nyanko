@@ -27,8 +27,8 @@ module Nyanko
     private
 
     def with_unit_stack(context)
-      context.units.push(@unit)
-      self.class.units.push(@unit)
+      context.units << @unit
+      self.class.units << @unit
       yield
     ensure
       self.class.units.pop

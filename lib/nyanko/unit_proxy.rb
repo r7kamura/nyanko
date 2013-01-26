@@ -2,6 +2,8 @@ require "delegate"
 
 module Nyanko
   class UnitProxy
+    attr_reader :unit
+
     def initialize(unit, context)
       @unit    = unit
       @context = context

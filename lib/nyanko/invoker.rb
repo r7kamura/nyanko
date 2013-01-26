@@ -6,7 +6,7 @@ module Nyanko
     def invoke(*args)
       options  = Options.new(*args)
       function = FunctionFinder.find(self, options)
-      unit_locals_stack.push(options.locals)
+      unit_locals_stack << options.locals
       function.invoke(self, options.invoke_options) if function
     rescue Exception
       yield if block_given?
