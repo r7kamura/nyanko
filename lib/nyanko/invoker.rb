@@ -12,10 +12,17 @@ module Nyanko
       unit_locals_stack.pop
     end
 
+    def units
+      @units ||= []
+    end
+
     private
 
+    # Search shared method or locals variable
     def method_missing(method_name, *args, &block)
-      if args.empty? && value = (unit_locals_stack.last || {})[method_name]
+      if (methods = units.last.try(:shared_methods)) && block = methods[method_name]
+        self.instance_exec(*args, &block)
+      elsif args.empty? && value = (unit_locals_stack.last || {})[method_name]
         value
       else
         super

@@ -1,6 +1,10 @@
 module ExampleUnit
   include Nyanko::Unit
 
+  shared(:shared) do |args|
+    "shared #{args}"
+  end
+
   scope(:controller) do
     function(:test) do
       "test"
@@ -26,6 +30,10 @@ module ExampleUnit
 
     function(:locals) do
       key
+    end
+
+    function(:shared) do
+      shared("args")
     end
   end
 end

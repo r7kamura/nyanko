@@ -24,6 +24,10 @@ module Nyanko
         view.invoke(:example_unit, :locals, :key => "value").should == "value"
       end
 
+      it "invokes with shared method" do
+        view.invoke(:example_unit, :shared).should == "shared args"
+      end
+
       context "when dependent unit is inactive" do
         it "does nothing" do
           view.invoke(:example_unit, :test, :if => :inactive_unit).should == nil
