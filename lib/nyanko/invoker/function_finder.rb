@@ -26,7 +26,7 @@ module Nyanko
       alias_method_chain :find, :dependencies
 
       def find_unit(name)
-        Loader.fetch(name)
+        Loader.load(name)
       end
 
       def has_inactive_dependent_unit?

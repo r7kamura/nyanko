@@ -1,5 +1,10 @@
 require "simplecov"
-SimpleCov.start
+SimpleCov.start do
+  add_filter "/spec\/fixtures/"
+end
+
+require "nyanko"
+Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
 
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../dummy/config/environment", __FILE__)

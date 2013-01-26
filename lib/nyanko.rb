@@ -4,6 +4,7 @@ require "active_record"
 require "active_support/all"
 
 require "nyanko/active_if"
+require "nyanko/config"
 require "nyanko/function"
 require "nyanko/helper"
 require "nyanko/invoker"
