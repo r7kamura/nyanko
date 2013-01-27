@@ -3,7 +3,7 @@ require "spec_helper"
 module Nyanko
   describe Function do
     let(:function) do
-      described_class.new(unit, :label) { current_unit }
+      described_class.new(unit) { current_unit }
     end
 
     let(:unit) do
