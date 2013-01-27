@@ -10,6 +10,14 @@ module Nyanko
       end.new
     end
 
+    let(:controller) do
+      Class.new(ActionController::Base) do
+        include Nyanko::Invoker
+        include Nyanko::Helper
+        include Nyanko::UnitProxyProvider
+      end.new
+    end
+
     describe "#invoke" do
       it "invokes defined function for current context" do
         view.invoke(:example_unit, :test).should == "test"
@@ -55,8 +63,18 @@ module Nyanko
 
       context "when an error is raised in invoking" do
         context "when block is given" do
-          it "calls given block as a fallback" do
-            view.invoke(:example_unit, :error) { "error" }.should == "error"
+          context "when context is a view" do
+            it "captures given block as a fallback" do
+              view.should_receive(:capture).and_call_original
+              view.invoke(:example_unit, :error) { "error" }.should == "error"
+            end
+          end
+
+          context "when context is not a view" do
+            it "calls given block as a fallback" do
+              controller.should_not_receive(:capture)
+              controller.invoke(:example_unit, :error) { "error" }.should == "error"
+            end
           end
         end
 

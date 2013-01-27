@@ -3,13 +3,20 @@ require "nyanko/invoker/function_finder"
 
 module Nyanko
   module Invoker
-    def invoke(*args)
+    def invoke(*args, &block)
       options  = Options.new(*args)
       unit_locals_stack << options.locals
       function = FunctionFinder.find(self, options)
       function.invoke(self, options.invoke_options)
     rescue Exception
-      yield if block_given?
+      case
+      when !block
+        nil
+      when is_a?(ActionView::Base)
+        capture(&block)
+      else
+        block.call
+      end
     ensure
       unit_locals_stack.pop
     end
