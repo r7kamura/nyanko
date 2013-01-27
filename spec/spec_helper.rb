@@ -1,6 +1,7 @@
 require "simplecov"
 SimpleCov.start do
   add_filter "/spec\/fixtures/"
+  add_filter "/spec\/dummy/"
 end
 
 require "nyanko"
