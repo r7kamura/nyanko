@@ -12,8 +12,9 @@ module Nyanko
       end
     end
 
-    def initialize(unit, &block)
+    def initialize(unit, label, &block)
       @unit  = unit
+      @label = label
       @block = block
     end
 

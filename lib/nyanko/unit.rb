@@ -23,7 +23,7 @@ module Nyanko
       end
 
       def function(label, &block)
-        functions[label] = Function.new(self, &block)
+        functions[label] = Function.new(self, label, &block)
       end
 
       def shared(label, &block)
