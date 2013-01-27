@@ -19,33 +19,59 @@ module Nyanko
     end
 
     describe "#invoke" do
-      it "invokes defined function for current context" do
-        view.invoke(:example_unit, :test).should == "test"
-      end
-
       it "invokes in the same context with receiver" do
-        view.invoke(:example_unit, :self).should == view
+        view.invoke(:example_unit, :self, :type => :plain).should == view
       end
 
       it "invokes with locals option" do
-        view.invoke(:example_unit, :locals, :locals => { :key => "value" }).should == "value"
-      end
-
-      it "invokes with short-hand style locals option" do
-        view.invoke(:example_unit, :locals, :key => "value").should == "value"
+        view.invoke(:example_unit, :locals, :locals => { :key => "value" }, :type => :plain).
+          should == "value"
       end
 
       it "invokes with shared method" do
-        view.invoke(:example_unit, :shared).should == "shared args"
+        view.invoke(:example_unit, :shared, :type => :plain).should == "shared args"
       end
 
       it "invokes with helper method in view context" do
-        view.invoke(:example_unit, :helper).should == "helper"
+        view.invoke(:example_unit, :helper, :type => :plain).should == "helper"
+      end
+
+      context "when short-hand style args is passed" do
+        it "recognizes args as locals option" do
+          view.invoke(:example_unit, :locals, :key => "value").should ==
+            '<div class="unit unit__example_unit unit__example_unit__locals">value</div>'
+        end
+      end
+
+      context "when type is not specified" do
+        it "invokes and returns result surrounded by div" do
+          view.invoke(:example_unit, :test).should ==
+            '<div class="unit unit__example_unit unit__example_unit__test">test</div>'
+        end
+      end
+
+      context "when type is :plain" do
+        it "invokes defined function for current context and return result" do
+          view.invoke(:example_unit, :test, :type => :plain).should == "test"
+        end
+      end
+
+      context "when type is :inline" do
+        it "invokes and returns result surrounded by span" do
+          view.invoke(:example_unit, :test, :type => :inline).should ==
+            '<span class="unit unit__example_unit unit__example_unit__test">test</span>'
+        end
+      end
+
+      context "when context is not a view" do
+        it "does not surround result with html tag" do
+          controller.invoke(:example_unit, :test).should == "test"
+        end
       end
 
       context "when non-existent unit is specified" do
         it "does nothing" do
-          view.invoke(:non_existent_unit, :test).should == nil
+          view.invoke(:non_existent_unit, :test, :type => :plain).should == nil
         end
       end
 
@@ -57,7 +83,8 @@ module Nyanko
 
       context "when 2 functions are specified" do
         it "invokes first active function" do
-          view.invoke([:inactive_unit, :inactive], [:example_unit, :test]).should == "test"
+          view.invoke([:inactive_unit, :inactive], [:example_unit, :test], :type => :plain).
+            should == "test"
         end
       end
 

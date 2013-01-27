@@ -4,15 +4,17 @@ require "nyanko/invoker/function_finder"
 module Nyanko
   module Invoker
     def invoke(*args, &block)
-      options  = Options.new(*args)
+      options = Options.new(*args)
       unit_locals_stack << options.locals
       function = FunctionFinder.find(self, options)
-      function.invoke(self, options.invoke_options)
+      result   = function.invoke(self, options.invoke_options)
+      result   = surround_with_html_tag(result, function, options) if view?
+      result
     rescue Exception
       case
       when !block
         nil
-      when is_a?(ActionView::Base)
+      when view?
         capture(&block)
       else
         block.call
@@ -40,6 +42,26 @@ module Nyanko
 
     def unit_locals_stack
       @unit_locals_stack ||= []
+    end
+
+    def surround_with_html_tag(str, function, options)
+      classes = %W[
+        unit
+        unit__#{function.unit.name.underscore}
+        unit__#{function.unit.name.underscore}__#{function.label}
+      ]
+      case options.type
+      when :plain
+        str
+      when :inline
+        content_tag(:span, str, :class => classes)
+      else
+        content_tag(:div, str, :class => classes)
+      end
+    end
+
+    def view?
+      is_a?(ActionView::Base)
     end
   end
 end

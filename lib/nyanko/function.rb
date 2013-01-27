@@ -1,6 +1,6 @@
 module Nyanko
   class Function
-    attr_reader :block
+    attr_reader :block, :unit, :label
 
     class << self
       def units
