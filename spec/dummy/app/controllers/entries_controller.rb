@@ -1,4 +1,6 @@
 class EntriesController < ApplicationController
+  unit_action :entry_deletion, :destroy
+
   def index
     @entries = Entry.all
   end
@@ -25,11 +27,5 @@ class EntriesController < ApplicationController
     @entry = Entry.find(params[:id])
     @entry.update_attributes(params[:entry])
     redirect_to @entry
-  end
-
-  def destroy
-    @entry = Entry.find(params[:id])
-    @entry.destroy
-    redirect_to entries_path
   end
 end
