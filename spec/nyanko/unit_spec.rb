@@ -117,9 +117,11 @@ module Nyanko
 
     describe ".models" do
       before do
-        stub_const("ExampleModel", Class.new { include UnitProxyProvider })
+        stub_const("ExampleModel", model_class)
         unit.models do
           expand(:ExampleModel) do
+            scope :active, lambda { where(:deleted_at => nil) }
+
             def test
               "test"
             end
@@ -133,14 +135,28 @@ module Nyanko
         end
       end
 
+      let(:model_class) do
+        Class.new do
+          include UnitProxyProvider
+
+          def self.scope(name, *args)
+            singleton_class.class_eval do
+              define_method(name) { "scoped" }
+            end
+          end
+        end
+      end
+
       it "defines instance methods with prefix" do
-        ExampleModel.new.unit(:example_unit).test.should == "test"
         ExampleModel.new.__example_unit_test.should == "test"
       end
 
       it "defines class methods with prefix" do
-        ExampleModel.unit(:example_unit).test.should == "test"
         ExampleModel.__example_unit_test.should == "test"
+      end
+
+      it "defines association methods with prefix" do
+        ExampleModel.__example_unit_active.should == "scoped"
       end
     end
   end

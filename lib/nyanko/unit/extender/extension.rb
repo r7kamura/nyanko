@@ -2,7 +2,10 @@ module Nyanko
   module Unit
     class Extender
       class Extension < Module
-        def initialize(prefix = nil, &block)
+        include ActiveRecordClassMethods
+
+        def initialize(mod, prefix = nil, &block)
+          @mod    = mod
           @prefix = prefix
           @block  = block
           define_methods_with_prefix(instance_methods_module, &block)
