@@ -1,8 +1,11 @@
 module Nyanko
   module Invoker
     class FunctionFinder
+      UnitNotFound     = Class.new(StandardError)
+      FunctionNotFound = Class.new(StandardError)
+
       def self.find(*args)
-        new(*args).find
+        new(*args).find or raise FunctionNotFound
       end
 
       def initialize(context, options)
@@ -26,7 +29,7 @@ module Nyanko
       alias_method_chain :find, :dependencies
 
       def find_unit(name)
-        Loader.load(name)
+        Loader.load(name) or raise UnitNotFound
       end
 
       def has_inactive_dependent_unit?

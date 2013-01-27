@@ -5,9 +5,9 @@ module Nyanko
   module Invoker
     def invoke(*args)
       options  = Options.new(*args)
-      function = FunctionFinder.find(self, options)
       unit_locals_stack << options.locals
-      function.invoke(self, options.invoke_options) if function
+      function = FunctionFinder.find(self, options)
+      function.invoke(self, options.invoke_options)
     rescue Exception
       yield if block_given?
     ensure

@@ -35,6 +35,12 @@ module Nyanko
         view.invoke(:example_unit, :helper).should == "helper"
       end
 
+      context "when non-existent unit is specified" do
+        it "does nothing" do
+          view.invoke(:non_existent_unit, :test).should == nil
+        end
+      end
+
       context "when dependent unit is inactive" do
         it "does nothing" do
           view.invoke(:example_unit, :test, :if => :inactive_unit).should == nil
