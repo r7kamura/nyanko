@@ -20,7 +20,9 @@ module Nyanko
 
     def invoke(context, options = {})
       with_unit_stack(context) do
-        context.instance_eval(&block)
+        with_unit_view_path(context) do
+          context.instance_eval(&block)
+        end
       end
     end
 
@@ -33,6 +35,16 @@ module Nyanko
     ensure
       self.class.units.pop
       context.units.pop
+    end
+
+    def with_unit_view_path(context)
+      if context.view?
+        origin = context.view_paths
+        context.view_paths.unshift unit.view_path
+      end
+      yield
+    ensure
+      context.view_paths = origin if context.view?
     end
   end
 end

@@ -28,6 +28,10 @@ module Nyanko
       @units ||= []
     end
 
+    def view?
+      is_a?(ActionView::Base)
+    end
+
     private
 
     # Search shared method or locals variable
@@ -59,10 +63,6 @@ module Nyanko
       else
         content_tag(:div, str, :class => classes)
       end
-    end
-
-    def view?
-      is_a?(ActionView::Base)
     end
   end
 end

@@ -54,6 +54,10 @@ module Nyanko
         UnitProxy.generate_prefix(name)
       end
 
+      def view_path
+        "#{Config.units_directory_path}/#{name.underscore}/views"
+      end
+
       def find_function(identifier, label)
         klass      = ScopeFinder.find(identifier)
         candidates = scopes.keys

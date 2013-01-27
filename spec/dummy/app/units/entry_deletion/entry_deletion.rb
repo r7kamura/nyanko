@@ -3,7 +3,7 @@ module EntryDeletion
 
   scope(:view) do
     function(:delete_link) do
-      link_to "Delete", entry_path(entry), :method => :delete unless entry.persisted?
+      render "/delete_link", :entry => entry if entry.persisted?
     end
   end
 end

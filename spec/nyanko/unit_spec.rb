@@ -159,5 +159,11 @@ module Nyanko
         ExampleModel.__example_unit_active.should == "scoped"
       end
     end
+
+    describe ".view_path" do
+      it "returns path for its view directory" do
+        unit.view_path.should == "#{Config.units_directory_path}/example_unit/views"
+      end
+    end
   end
 end
