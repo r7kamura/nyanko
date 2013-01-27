@@ -101,7 +101,6 @@ $ rails s
 
 ## Todo
 * auto-reloading
-* logger
 * configuration
 * backwoard compatibility (alias ext to unit)
 * document

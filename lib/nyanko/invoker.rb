@@ -10,8 +10,8 @@ module Nyanko
       result   = function.invoke(self, options.invoke_options)
       result   = surround_with_html_tag(result, function, options) if view?
       result
-    rescue Exception
-      p $!
+    rescue Exception => exception
+      ExceptionHandler.handle(exception)
       case
       when !block
         nil
