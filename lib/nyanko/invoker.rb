@@ -17,7 +17,7 @@ module Nyanko
       when view?
         capture(&block)
       else
-        block.call
+        instance_exec(&block)
       end
     ensure
       unit_locals_stack.pop
