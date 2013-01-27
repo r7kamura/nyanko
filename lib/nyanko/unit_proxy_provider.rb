@@ -5,6 +5,7 @@ module Nyanko
     extend ActiveSupport::Concern
 
     included do
+      extend UnitProxyProvider
       include Helper
     end
 

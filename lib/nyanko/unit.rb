@@ -1,3 +1,4 @@
+require "nyanko/unit/extender"
 require "nyanko/unit/scope_finder"
 
 module Nyanko
@@ -33,6 +34,10 @@ module Nyanko
         Helper.define(name, &block)
       end
 
+      def models(&block)
+        extender.instance_eval(&block)
+      end
+
       def active_if(*conditions, &block)
         @active_if = ActiveIf.new(*conditions, &block)
       end
@@ -43,6 +48,10 @@ module Nyanko
 
       def to_key
         name.underscore.to_sym
+      end
+
+      def to_prefix
+        UnitProxy.generate_prefix(name)
       end
 
       def find_function(identifier, label)
@@ -63,6 +72,10 @@ module Nyanko
 
       def shared_methods
         @shared_methods ||= {}
+      end
+
+      def extender
+        @extender ||= Extender.new(to_prefix)
       end
     end
   end

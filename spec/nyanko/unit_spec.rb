@@ -2,6 +2,10 @@ require "spec_helper"
 
 module Nyanko
   describe Unit do
+    before do
+      unit.stub(:name => "ExampleUnit")
+    end
+
     let(:unit) do
       Module.new { include Nyanko::Unit }
     end
@@ -101,10 +105,6 @@ module Nyanko
     end
 
     describe ".helpers" do
-      before do
-        unit.stub(:name => "ExampleUnit")
-      end
-
       it "provides interface for unit to define helper methods" do
         unit.helpers do
           def test
@@ -112,6 +112,35 @@ module Nyanko
           end
         end
         view.__example_unit_test.should == "test"
+      end
+    end
+
+    describe ".models" do
+      before do
+        stub_const("ExampleModel", Class.new { include UnitProxyProvider })
+        unit.models do
+          expand(:ExampleModel) do
+            def test
+              "test"
+            end
+
+            class_methods do
+              def test
+                "test"
+              end
+            end
+          end
+        end
+      end
+
+      it "defines instance methods with prefix" do
+        ExampleModel.new.unit(:example_unit).test.should == "test"
+        ExampleModel.new.__example_unit_test.should == "test"
+      end
+
+      it "defines class methods with prefix" do
+        ExampleModel.unit(:example_unit).test.should == "test"
+        ExampleModel.__example_unit_test.should == "test"
       end
     end
   end
