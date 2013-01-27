@@ -28,4 +28,10 @@ module EntryDeletion
       end
     end
   end
+
+  helpers do
+    def link_to_deletion(entry)
+      link_to "Delete", entry, :method => :delete
+    end
+  end
 end
