@@ -11,6 +11,7 @@ module Nyanko
       result   = surround_with_html_tag(result, function, options) if view?
       result
     rescue Exception
+      p $!
       case
       when !block
         nil

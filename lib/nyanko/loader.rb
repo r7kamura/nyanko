@@ -37,7 +37,7 @@ module Nyanko
     end
 
     def require_unit_files
-      paths.each {|path| require path }
+      paths.each {|path| require Rails.root.join(path) }
     end
 
     def paths

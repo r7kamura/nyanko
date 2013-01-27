@@ -1,7 +1,13 @@
 module Nyanko
   module Config
     class << self
-      attr_accessor :units_directory_path
+      def units_directory_path
+        @units_directory_path ||= "app/units"
+      end
+
+      def units_directory_path=(path)
+        @units_directory_path = path
+      end
     end
   end
 end
