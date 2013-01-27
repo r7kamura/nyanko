@@ -2,6 +2,7 @@ require "action_controller"
 require "action_view"
 require "active_record"
 require "active_support/all"
+require "rails"
 
 require "nyanko/active_if"
 require "nyanko/config"

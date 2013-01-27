@@ -1,5 +1,3 @@
-require "rails"
-
 module Nyanko
   class Railtie < Rails::Railtie
     initializer "nyanko" do |app|
