@@ -8,6 +8,11 @@ module Nyanko
           include Nyanko::Controller
           unit_action(:example_unit, :test)
           unit_action(:example_unit, :foo, :bar)
+          unit_action(:example_unit, :error)
+
+          def head(code)
+            "Bad Request #{code}"
+          end
         end
       end
 
@@ -22,6 +27,12 @@ module Nyanko
       it "defines 2 actions at one line" do
         controller.foo.should == "foo"
         controller.bar.should == "bar"
+      end
+
+      context "when invoke is fallen back" do
+        it "halts with 400 status code" do
+          controller.error.should == "Bad Request 400"
+        end
       end
     end
   end
