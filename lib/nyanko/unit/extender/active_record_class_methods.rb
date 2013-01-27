@@ -34,7 +34,7 @@ module Nyanko
           :to => :@mod
         )
 
-        %w[belongs_to has_many has_one scope].each do |method_name|
+        %w[belongs_to has_many has_one].each do |method_name|
           class_eval <<-EOS
             def #{method_name}(*args, &block)
               name    = @prefix + args.shift.to_s
@@ -44,6 +44,11 @@ module Nyanko
               @mod.#{method_name}(name.to_sym, *args, &block)
             end
           EOS
+        end
+
+        def scope(*args, &block)
+          name = @prefix + args.shift.to_s
+          @mod.scope(name, *args)
         end
       end
     end

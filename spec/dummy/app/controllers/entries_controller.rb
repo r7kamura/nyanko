@@ -2,7 +2,9 @@ class EntriesController < ApplicationController
   unit_action :entry_deletion, :destroy
 
   def index
-    @entries = Entry.all
+    invoke(:entry_deletion, :index) do
+      @entries = Entry.all
+    end
   end
 
   def show
