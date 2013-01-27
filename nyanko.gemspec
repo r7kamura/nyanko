@@ -7,9 +7,9 @@ Gem::Specification.new do |gem|
   gem.version       = Nyanko::VERSION
   gem.authors       = ["Ryo Nakamura"]
   gem.email         = ["r7kamura@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = "Nyanko is a Rails extension tool deeply inspired from Chanko"
+  gem.summary       = "Rails extension tool"
+  gem.homepage      = "https://github.com/r7kamura/nyanko"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
