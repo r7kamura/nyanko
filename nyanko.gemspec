@@ -16,9 +16,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "rails", "~> 3.2.11"
-  gem.add_development_dependency "sqlite3"
+  gem.add_dependency "rails", ">= 3.0.10"
+  gem.add_development_dependency "jquery-rails"
   gem.add_development_dependency "pry"
   gem.add_development_dependency "rspec-rails", "2.12.2"
   gem.add_development_dependency "simplecov"
+  gem.add_development_dependency "sqlite3"
 end
