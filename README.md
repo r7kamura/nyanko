@@ -1,8 +1,11 @@
 # Nyanko
-Nyanko is a Rails extension tool.  
-This is deeply inspired from [Chanko](https://github.com/cookpad/chanko) and has same API as Chanko.
-
-![](http://octodex.github.com/images/nyantocat.gif)
+```
+       _ ∧ ∧＿__
+     ／(*ﾟーﾟ)  ／＼  Nyanko is a Rails extension framework,
+  ／|￣ ∪∪ ￣|＼／   which is deeply inspired from Chanko
+    |         |／     and has same API and clean implementation as Chanko.
+     ￣￣￣￣￣         https://github.com/cookpad/chanko
+```
 
 
 ## Requirements
