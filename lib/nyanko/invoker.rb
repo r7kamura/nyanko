@@ -50,18 +50,13 @@ module Nyanko
     end
 
     def surround_with_html_tag(str, function, options)
-      classes = %W[
-        unit
-        unit__#{function.unit.name.underscore}
-        unit__#{function.unit.name.underscore}__#{function.label}
-      ]
       case options.type
       when :plain
         str
       when :inline
-        content_tag(:span, str, :class => classes)
+        content_tag(:span, str, :class => function.css_classes)
       else
-        content_tag(:div, str, :class => classes)
+        content_tag(:div, str, :class => function.css_classes)
       end
     end
   end

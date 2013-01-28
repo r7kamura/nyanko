@@ -26,6 +26,22 @@ module Nyanko
       end
     end
 
+    def css_classes
+      if Config.compatible_css_class
+        %W[
+          extension
+          ext_#{unit.name.underscore}
+          ext_#{unit.name.underscore}-#{label}
+        ]
+      else
+        %W[
+          unit
+          unit__#{unit.name.underscore}
+          unit__#{unit.name.underscore}__#{label}
+        ]
+      end
+    end
+
     private
 
     def with_unit_stack(context)

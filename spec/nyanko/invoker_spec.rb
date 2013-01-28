@@ -50,6 +50,19 @@ module Nyanko
         end
       end
 
+      context "when compatible css class option is specified" do
+        around do |example|
+          origin, Config.compatible_css_class = Config.compatible_css_class, true
+          example.run
+          Config.compatible_css_class = origin
+        end
+
+        it "invokes and returns result surrounded by div" do
+          view.invoke(:example_unit, :test).should ==
+            '<div class="extension ext_example_unit ext_example_unit-test">test</div>'
+        end
+      end
+
       context "when type is :plain" do
         it "invokes defined function for current context and return result" do
           view.invoke(:example_unit, :test, :type => :plain).should == "test"

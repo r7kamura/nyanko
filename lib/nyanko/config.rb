@@ -4,6 +4,7 @@ module Nyanko
       attr_accessor(
         :backtrace_limit,
         :cache_units,
+        :compatible_css_class,
         :raise_error,
         :units_directory_path
       )
