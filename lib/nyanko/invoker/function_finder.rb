@@ -17,7 +17,7 @@ module Nyanko
         @options[:functions].find do |unit_name, label|
           unit       = find_unit(unit_name)
           identifier = @options[:as] || @context.class
-          next unless unit.active?(@context, @options[:active_if_options])
+          next unless unit.try(:active?, @context, @options[:active_if_options])
           function = unit.find_function(identifier, label)
           break function if function
         end
