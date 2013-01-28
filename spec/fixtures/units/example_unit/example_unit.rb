@@ -21,6 +21,10 @@ module ExampleUnit
     function(:alias) do
       "alias"
     end
+
+    function(:default) do
+      run_default
+    end
   end
 
   scope(:view) do

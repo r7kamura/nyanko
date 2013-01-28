@@ -82,6 +82,18 @@ module Nyanko
         end
       end
 
+      context "when run_default is called in function" do
+        it "invokes given block as a fallback" do
+          controller.invoke(:example_unit, :default) { "default" }.should == "default"
+        end
+      end
+
+      context "when run_default is called but no block given" do
+        it "invokes given block as a fallback" do
+          controller.invoke(:example_unit, :default).should == nil
+        end
+      end
+
       context "when non-existent unit is specified" do
         it "does nothing" do
           view.invoke(:non_existent_unit, :test, :type => :plain).should == nil

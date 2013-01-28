@@ -5,6 +5,7 @@ module Nyanko
   module Invoker
     def invoke(*args, &block)
       options = Options.new(*args)
+      defaults_stack << block
       unit_locals_stack << options.locals
       function = FunctionFinder.find(self, options)
       result   = function.invoke(self, options.invoke_options)
@@ -12,15 +13,9 @@ module Nyanko
       result
     rescue Exception => exception
       ExceptionHandler.handle(exception)
-      case
-      when !block
-        nil
-      when view?
-        capture(&block)
-      else
-        instance_exec(&block)
-      end
+      run_default
     ensure
+      defaults_stack.pop
       unit_locals_stack.pop
     end
 
@@ -30,6 +25,16 @@ module Nyanko
 
     def view?
       is_a?(ActionView::Base)
+    end
+
+    def run_default
+      if block = defaults_stack.last
+        if view?
+          capture(&block)
+        else
+          instance_exec(&block)
+        end
+      end
     end
 
     private
@@ -43,6 +48,10 @@ module Nyanko
       else
         super
       end
+    end
+
+    def defaults_stack
+      @defaults_stack ||= []
     end
 
     def unit_locals_stack
