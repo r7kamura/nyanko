@@ -2,10 +2,6 @@ module Nyanko
   module Controller
     extend ActiveSupport::Concern
 
-    included do
-      include Invoker
-    end
-
     module ClassMethods
       private
 
