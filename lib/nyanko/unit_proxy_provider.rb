@@ -1,7 +1,5 @@
 module Nyanko
   module UnitProxyProvider
-    NoUnitError = Class.new(StandardError)
-
     extend ActiveSupport::Concern
 
     included do
@@ -13,8 +11,6 @@ module Nyanko
       name ||= Function.current_unit.try(:to_key)
       if name && unit = Loader.load(name)
         UnitProxy.new(unit, self)
-      else
-        raise NoUnitError
       end
     end
     alias_method :ext, :unit

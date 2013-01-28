@@ -19,7 +19,11 @@ module Nyanko
     end
 
     def load
-      loaded? ? load_from_cache : load_from_file
+      if loaded? && Config.cache_units
+        load_from_cache
+      else
+        load_from_file
+      end
     end
 
     def loaded?
@@ -31,7 +35,7 @@ module Nyanko
     end
 
     def load_from_file
-      require_unit_files
+      add_autoload_path
       cache[@name] = constantize
     rescue Exception => exception
       ExceptionHandler.handle(exception)
@@ -39,12 +43,13 @@ module Nyanko
       nil
     end
 
-    def require_unit_files
-      paths.each {|path| require Rails.root.join(path) }
+    def add_autoload_path
+      ActiveSupport::Dependencies.autoload_paths << autoload_path
+      ActiveSupport::Dependencies.autoload_paths.uniq!
     end
 
-    def paths
-      Pathname.glob("#{directory_path}/#@name/#@name.rb").sort
+    def autoload_path
+      Rails.root.join("#{directory_path}/#@name").to_s
     end
 
     def directory_path

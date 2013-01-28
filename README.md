@@ -100,7 +100,6 @@ $ rails s
 
 
 ## Todo
-* auto-reloading
 * configuration
 * document
 * test (for now, test coverage is 100%)
