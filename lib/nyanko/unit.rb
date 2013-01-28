@@ -23,6 +23,7 @@ module Nyanko
       def function(label, &block)
         functions[label] = Function.new(self, label, &block)
       end
+      alias_method :callback, :function
 
       def shared(label, &block)
         shared_methods[label] = block
