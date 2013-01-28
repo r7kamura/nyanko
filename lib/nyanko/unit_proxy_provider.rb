@@ -17,5 +17,6 @@ module Nyanko
         raise NoUnitError
       end
     end
+    alias_method :ext, :unit
   end
 end

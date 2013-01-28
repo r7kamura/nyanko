@@ -7,6 +7,10 @@ module Nyanko
     end
 
     describe "#unit" do
+      it "is aliased with `ext`" do
+        view.ext(:example_unit).should be_a UnitProxy
+      end
+
       context "when given unit name" do
         it "returns proxy for specified unit" do
           proxy = view.unit(:example_unit)

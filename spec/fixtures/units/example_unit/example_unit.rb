@@ -17,6 +17,10 @@ module ExampleUnit
     function(:bar) do
       "bar"
     end
+
+    function(:alias) do
+      "alias"
+    end
   end
 
   scope(:view) do

@@ -102,6 +102,5 @@ $ rails s
 ## Todo
 * auto-reloading
 * configuration
-* backwoard compatibility (alias ext to unit)
 * document
 * test (for now, test coverage is 100%)

@@ -18,6 +18,7 @@ module Nyanko
           end
         end
       end
+      alias_method :ext_action, :unit_action
     end
   end
 end

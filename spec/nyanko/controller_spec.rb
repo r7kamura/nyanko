@@ -9,6 +9,7 @@ module Nyanko
           unit_action(:example_unit, :test)
           unit_action(:example_unit, :foo, :bar)
           unit_action(:example_unit, :error)
+          ext_action(:example_unit, :alias)
 
           def head(code)
             "Bad Request #{code}"
@@ -27,6 +28,10 @@ module Nyanko
       it "defines 2 actions at one line" do
         controller.foo.should == "foo"
         controller.bar.should == "bar"
+      end
+
+      it "is aliased with `ext_action`" do
+        controller.alias.should == "alias"
       end
 
       context "when invoke is fallen back" do
