@@ -12,8 +12,6 @@ module Nyanko
     module ClassMethods
       attr_accessor :current_scope
 
-      delegate :active?, :to => :@active_if
-
       def scope(identifier)
         self.current_scope = ScopeFinder.find(identifier)
         scopes[current_scope] ||= {}
@@ -40,6 +38,10 @@ module Nyanko
 
       def active_if(*conditions, &block)
         @active_if = ActiveIf.new(*conditions, &block)
+      end
+
+      def active?(context, options = {})
+        @active_if.active?(context, options.merge(:unit => self))
       end
 
       def any(*labels)
