@@ -45,6 +45,24 @@ module Nyanko
           view.should be_respond_to(:proxy)
         end
       end
+
+      context "when Config.proxy_method_name is configured as Array" do
+        around do |example|
+          origin, Config.proxy_method_name = Config.proxy_method_name, [:proxy1, :proxy2]
+          described_class.class_eval { remove_method origin } if view.respond_to?(origin)
+          example.run
+          described_class.class_eval { remove_method :proxy1, :proxy2 }
+        end
+
+        it "change this method name with it" do
+          view.should_not be_respond_to(:proxy1)
+          view.should_not be_respond_to(:proxy2)
+          view.proxy1(:example_unit).should be_a UnitProxy
+          view.proxy2(:example_unit).should be_a UnitProxy
+          view.should be_respond_to(:proxy1)
+          view.should be_respond_to(:proxy2)
+        end
+      end
     end
   end
 end

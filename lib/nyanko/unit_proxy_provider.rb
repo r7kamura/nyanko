@@ -8,7 +8,7 @@ module Nyanko
     end
 
     def method_missing(method_name, *args, &block)
-      if method_name == Config.proxy_method_name.to_sym
+      if Array.wrap(Config.proxy_method_name).include?(method_name)
         UnitProxyProvider.class_eval do
           define_method(method_name) do |*_args|
             name = _args.first || Function.current_unit.try(:unit_name)
