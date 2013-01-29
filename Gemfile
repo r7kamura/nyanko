@@ -16,6 +16,7 @@ end
 
 group :development, :test do
   gem "pry-rails"
+  gem "thin"
 end
 
 group :assets do
