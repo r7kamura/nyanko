@@ -55,12 +55,11 @@ module Nyanko
 
     def with_unit_view_path(context)
       if context.view?
-        origin = context.view_paths
         context.view_paths.unshift unit.view_path
       end
       yield
     ensure
-      context.view_paths = origin if context.view?
+      context.view_paths.paths.unshift if context.view?
     end
   end
 end
