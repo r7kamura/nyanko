@@ -9,7 +9,7 @@ module Nyanko
 
     def method_missing(method_name, *args, &block)
       if method_name == Config.proxy_method_name.to_sym
-        class_eval do
+        UnitProxyProvider.class_eval do
           define_method(method_name) do |*_args|
             name = _args.first || Function.current_unit.try(:to_key)
             if name && unit = Loader.load(name)
