@@ -30,7 +30,7 @@ module Nyanko
       end
 
       def helpers(&block)
-        Helper.define(name, &block)
+        Helper.define(unit_name, &block)
       end
 
       def models(&block)
@@ -49,16 +49,16 @@ module Nyanko
         ActiveIf::Any.new(*labels)
       end
 
-      def to_key
-        name.underscore.to_sym
+      def unit_name
+        @unit_name ||= name.underscore.to_sym
       end
 
       def to_prefix
-        UnitProxy.generate_prefix(name)
+        UnitProxy.generate_prefix(unit_name)
       end
 
       def view_path
-        "#{Config.units_directory_path}/#{name.underscore}/views"
+        "#{Config.units_directory_path}/#{unit_name}/views"
       end
 
       def find_function(identifier, label)

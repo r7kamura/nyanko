@@ -30,14 +30,14 @@ module Nyanko
       if Config.compatible_css_class
         %W[
           extension
-          ext_#{unit.name.underscore}
-          ext_#{unit.name.underscore}-#{label}
+          ext_#{unit.unit_name}
+          ext_#{unit.unit_name}-#{label}
         ]
       else
         %W[
           unit
-          unit__#{unit.name.underscore}
-          unit__#{unit.name.underscore}__#{label}
+          unit__#{unit.unit_name}
+          unit__#{unit.unit_name}__#{label}
         ]
       end
     end

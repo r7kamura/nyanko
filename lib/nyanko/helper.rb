@@ -1,8 +1,8 @@
 module Nyanko
   module Helper
     class << self
-      def define(class_name, &block)
-        prefix = UnitProxy.generate_prefix(class_name)
+      def define(unit_name, &block)
+        prefix = UnitProxy.generate_prefix(unit_name)
         define_methods_with_prefix(prefix, &block)
       end
 

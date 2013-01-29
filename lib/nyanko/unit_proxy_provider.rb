@@ -11,7 +11,7 @@ module Nyanko
       if method_name == Config.proxy_method_name.to_sym
         UnitProxyProvider.class_eval do
           define_method(method_name) do |*_args|
-            name = _args.first || Function.current_unit.try(:to_key)
+            name = _args.first || Function.current_unit.try(:unit_name)
             if name && unit = Loader.load(name)
               UnitProxy.new(unit, self)
             end

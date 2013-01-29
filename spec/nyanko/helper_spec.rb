@@ -14,7 +14,7 @@ module Nyanko
       end
 
       it "defines helper methods with special prefix" do
-        described_class.define("ExampleUnit") do
+        described_class.define(:example_unit) do
           def test
             "test"
           end
