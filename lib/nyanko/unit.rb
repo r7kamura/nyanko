@@ -62,10 +62,10 @@ module Nyanko
       end
 
       def find_function(identifier, label)
-        klass  = ScopeFinder.find(identifier)
-        target = klass.ancestors.find {|klass| scopes[klass] }
-        scope  = scopes[target]
-        scope[label] if scope
+        scope     = ScopeFinder.find(identifier)
+        target    = scope.ancestors.find {|klass| scopes[klass] }
+        functions = scopes[target]
+        functions[label] if functions
       end
 
       def functions
