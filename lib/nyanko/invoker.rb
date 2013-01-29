@@ -11,6 +11,8 @@ module Nyanko
       result   = function.invoke(self, options.invoke_options)
       result   = surround_with_html_tag(result, function, options) if view?
       result
+    rescue FunctionFinder::FunctionNotFound
+      run_default
     rescue Exception => exception
       ExceptionHandler.handle(exception)
       run_default

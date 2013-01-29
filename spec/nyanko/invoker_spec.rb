@@ -113,6 +113,13 @@ module Nyanko
         end
       end
 
+      context "when function is not found" do
+        it "runs default but not handled by ExceptionHandler" do
+          ExceptionHandler.should_not_receive(:handle)
+          view.invoke(:example_unit, :non_existent_function) { "default" }.should == "default"
+        end
+      end
+
       context "when an error is raised in invoking" do
         context "when block is given" do
           context "when context is a view" do
