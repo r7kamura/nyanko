@@ -7,12 +7,20 @@ module Nyanko
       include Helper
     end
 
-    def unit(name = nil)
-      name ||= Function.current_unit.try(:to_key)
-      if name && unit = Loader.load(name)
-        UnitProxy.new(unit, self)
+    def method_missing(method_name, *args, &block)
+      if method_name == Config.proxy_method_name.to_sym
+        class_eval do
+          define_method(method_name) do |*_args|
+            name = _args.first || Function.current_unit.try(:to_key)
+            if name && unit = Loader.load(name)
+              UnitProxy.new(unit, self)
+            end
+          end
+        end
+        send(method_name, args.first)
+      else
+        super
       end
     end
-    alias_method :ext, :unit
   end
 end
