@@ -38,20 +38,6 @@ module Nyanko
           described_class.load(:non_existent_unit)
         end
       end
-
-      context "when Config.cache_unit is false" do
-        around do |example|
-          origin, Config.cache_units = Config.cache_units, false
-          example.run
-          Config.cache_units = origin
-        end
-
-        it "loads unit without cache" do
-          described_class.any_instance.should_not_receive(:load_from_cache)
-          described_class.load(:example_unit)
-          described_class.load(:example_unit)
-        end
-      end
     end
   end
 end

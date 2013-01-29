@@ -5,6 +5,17 @@ module Nyanko
     module ClassMethods
       private
 
+      def inherited(base)
+        if Config.clear_units_cache && base.name == "ApplicationController"
+          base.class_eval do
+            prepend_before_filter do
+              Nyanko::Loader.cache.clear
+            end
+          end
+        end
+        super
+      end
+
       def unit_action(unit_name, *function_names, &block)
         options = function_names.extract_options!
         block ||= Proc.new { head 400 }

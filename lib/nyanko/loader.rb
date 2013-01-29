@@ -19,7 +19,7 @@ module Nyanko
     end
 
     def load
-      if loaded? && Config.cache_units
+      if loaded?
         load_from_cache
       else
         load_from_file

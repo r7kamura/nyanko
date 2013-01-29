@@ -4,6 +4,7 @@ module Nyanko
       attr_accessor(
         :backtrace_limit,
         :cache_units,
+        :clear_units_cache,
         :compatible_css_class,
         :enable_logger,
         :raise_error,
@@ -12,7 +13,7 @@ module Nyanko
 
       def reset
         self.backtrace_limit      = 10
-        self.cache_units          = !Rails.env.development?
+        self.clear_units_cache    = Rails.env.development? || Rails.env.test?
         self.enable_logger        = true
         self.raise_error          = Rails.env.development?
         self.units_directory_path = "app/units"
