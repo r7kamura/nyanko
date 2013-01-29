@@ -40,10 +40,8 @@ module Nyanko
     end
 
     context "when Config.enable_logger is true" do
-      around do |example|
-        origin, Config.enable_logger = Config.enable_logger, true
-        example.run
-        Config.enable_logger = origin
+      before do
+        Config.enable_logger = true
       end
 
       context "when given Exception" do
@@ -53,10 +51,8 @@ module Nyanko
         end
 
         context "when Config.backtrace_limit is configured" do
-          around do |example|
-            origin, Config.backtrace_limit = Config.backtrace_limit, 5
-            example.run
-            Config.backtrace_limit = origin
+          before do
+            Config.backtrace_limit = 5
           end
 
           it "prints backtrace up to configured depth" do
@@ -75,10 +71,8 @@ module Nyanko
     end
 
     context "when Config.enable_logger is false" do
-      around do |example|
-        origin, Config.enable_logger = Config.enable_logger, false
-        example.run
-        Config.enable_logger = origin
+      before do
+        Config.enable_logger = false
       end
 
       it "logs nothing" do

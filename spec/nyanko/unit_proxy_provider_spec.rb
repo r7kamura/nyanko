@@ -35,7 +35,6 @@ module Nyanko
           origin, Config.proxy_method_name = Config.proxy_method_name, :proxy
           described_class.class_eval { remove_method origin } if view.respond_to?(origin)
           example.run
-          Config.proxy_method_name = origin
           described_class.class_eval { remove_method :proxy }
         end
 

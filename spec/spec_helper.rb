@@ -6,7 +6,6 @@ end
 
 ENV["RAILS_ENV"] ||= "test"
 require "nyanko"
-Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
 
 require File.expand_path("../dummy/config/environment", __FILE__)
 require "rspec/rails"
@@ -18,4 +17,9 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
+
+  config.after do
+    Nyanko::Config.reset
+    Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
+  end
 end

@@ -3,10 +3,8 @@ require "spec_helper"
 module Nyanko
   describe ExceptionHandler do
     context "when Config.raise_error is truthy" do
-      around do |example|
-        origin, Config.raise_error = Config.raise_error, true
-        example.run
-        Config.raise_error = origin
+      before do
+        Config.raise_error = true
       end
 
       it "raises up error" do

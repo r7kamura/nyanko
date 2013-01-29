@@ -14,7 +14,9 @@ module Nyanko
 
       def reset
         self.backtrace_limit      = 10
+        self.cache_units          = false
         self.clear_units_cache    = Rails.env.development? || Rails.env.test?
+        self.compatible_css_class = false
         self.enable_logger        = true
         self.proxy_method_name    = :unit
         self.raise_error          = Rails.env.development?

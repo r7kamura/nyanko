@@ -50,11 +50,9 @@ module Nyanko
         end
       end
 
-      context "when compatible css class option is specified" do
-        around do |example|
-          origin, Config.compatible_css_class = Config.compatible_css_class, true
-          example.run
-          Config.compatible_css_class = origin
+      context "when Config.compatible_css_class is true" do
+        before do
+          Config.compatible_css_class = true
         end
 
         it "invokes and returns result surrounded by div" do
