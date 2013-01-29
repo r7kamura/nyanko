@@ -2,7 +2,7 @@ module Nyanko
   module ExceptionHandler
     class << self
       def handle(exception)
-        logger.debug Message.new(exception).to_s
+        logger.debug Message.new(exception).to_s if Config.enable_logger
         raise exception if Config.raise_error
       end
 

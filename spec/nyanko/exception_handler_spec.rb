@@ -53,5 +53,18 @@ module Nyanko
         described_class.handle(exception)
       end
     end
+
+    describe "when Config.enable_logger is false" do
+      around do |example|
+        origin, Config.enable_logger = Config.enable_logger, false
+        example.run
+        Config.enable_logger = origin
+      end
+
+      it "does not print log" do
+        Rails.logger.should_not_receive(:debug)
+        described_class.handle(exception)
+      end
+    end
   end
 end
