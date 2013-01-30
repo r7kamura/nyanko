@@ -80,6 +80,10 @@ module Nyanko
         @shared_methods ||= {}
       end
 
+      def resolver
+        @resolver ||= ActionView::OptimizedFileSystemResolver.new(view_path)
+      end
+
       def extender
         @extender ||= Extender.new(to_prefix)
       end

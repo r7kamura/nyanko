@@ -55,11 +55,11 @@ module Nyanko
 
     def with_unit_view_path(context)
       if context.view?
-        context.view_paths.unshift unit.view_path
+        context.view_paths.unshift unit.resolver
       end
       yield
     ensure
-      context.view_paths.paths.unshift if context.view?
+      context.view_paths.paths.shift if context.view?
     end
   end
 end
