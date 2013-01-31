@@ -6,10 +6,10 @@ module Nyanko
       private
 
       def inherited(base)
-        if Config.auto_reload && base.name == "ApplicationController"
+        if !Config.eager_load && base.name == "ApplicationController"
           base.class_eval do
             prepend_before_filter do
-              Nyanko::Loader.cache.clear
+              Nyanko::Loader.const_cache.clear
             end
           end
         end

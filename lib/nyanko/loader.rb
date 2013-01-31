@@ -15,8 +15,12 @@ module Nyanko
         end
       end
 
-      def cache
-        @cache ||= {}
+      def const_cache
+        @const_cache ||= {}
+      end
+
+      def update_checker_cache
+        @update_checker_cache ||= {}
       end
 
       def directory_path
@@ -24,7 +28,7 @@ module Nyanko
       end
     end
 
-    delegate :cache, :directory_path, :to => "self.class"
+    delegate :const_cache, :directory_path, :update_checker_cache, :to => "self.class"
 
     def initialize(name)
       @name = name
@@ -32,40 +36,62 @@ module Nyanko
 
     def load
       if loaded?
-        load_from_cache
+        load_from_const_cache
       else
         load_from_file
       end
     end
 
     def loaded?
-      cache[@name] != nil
+      const_cache[@name] != nil
     end
 
-    def load_from_cache
-      cache[@name]
+    def load_from_const_cache
+      const_cache[@name]
     end
 
     def load_from_file
-      add_autoload_path
-      cache[@name] = constantize
+      load_file
+      const_cache[@name] = constantize
     rescue Exception => exception
       ExceptionHandler.handle(exception)
-      cache[@name] = false
+      const_cache[@name] = false
       nil
     end
 
-    def add_autoload_path
-      ActiveSupport::Dependencies.autoload_paths << autoload_path
-      ActiveSupport::Dependencies.autoload_paths.uniq!
+    def load_file
+      if has_update_checker?
+        update_checker.execute_if_updated
+      else
+        update_checker.execute
+      end
     end
 
-    def autoload_path
-      Rails.root.join("#{directory_path}/#@name").to_s
+    def has_update_checker?
+      !!update_checker_cache[path]
+    end
+
+    def update_checker
+      update_checker_cache[path] ||= ActiveSupport::FileUpdateChecker.new([path]) do
+        reload_file
+      end
+    end
+
+    def reload_file
+      Object.send(:remove_const, unit_class_name) rescue nil
+      Kernel.load(path)
+    end
+
+    def unit_class_name
+      @name.to_s.camelize
+    end
+
+    def path
+      Rails.root.join("#{directory_path}/#@name/#@name.rb").to_s
     end
 
     def constantize
-      @name.to_s.camelize.constantize
+      unit_class_name.constantize
     rescue NameError
       raise UnitNotFound, "The unit for #{@name.inspect} is not found"
     end

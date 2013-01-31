@@ -7,8 +7,8 @@ describe ApplicationController do
     end
   end
 
-  it "clears cache before each request" do
-    Nyanko::Loader.cache.should_receive(:clear).exactly(2)
+  it "clears unit const cache before each request" do
+    Nyanko::Loader.const_cache.should_receive(:clear).exactly(2)
     get :index
     get :index
   end
