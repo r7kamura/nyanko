@@ -100,6 +100,7 @@ $ rails s
 
 
 ## Todo
-* configuration
-* document
-* test (for now, test coverage is 100%)
+* Test macros
+* Generator
+* Documentation
+* Backward compatibility
