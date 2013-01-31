@@ -18,8 +18,11 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
 
+  config.before do
+    Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
+  end
+
   config.after do
     Nyanko::Config.reset
-    Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
   end
 end

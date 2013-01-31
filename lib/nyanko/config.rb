@@ -6,6 +6,7 @@ module Nyanko
         :backtrace_limit,
         :cache_units,
         :compatible_css_class,
+        :eager_load,
         :enable_logger,
         :proxy_method_name,
         :raise_error,
@@ -17,6 +18,7 @@ module Nyanko
         self.backtrace_limit      = 10
         self.cache_units          = false
         self.compatible_css_class = false
+        self.eager_load           = Rails.env.production?
         self.enable_logger        = true
         self.proxy_method_name    = :unit
         self.raise_error          = Rails.env.development?
