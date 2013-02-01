@@ -110,13 +110,6 @@ module Nyanko
         end
       end
 
-      context "when 2 functions are specified" do
-        it "invokes first active function" do
-          view.invoke([:inactive_unit, :inactive], [:example_unit, :test], :type => :plain).
-            should == "test"
-        end
-      end
-
       context "when function is not found" do
         it "runs default but not handled by ExceptionHandler" do
           ExceptionHandler.should_not_receive(:handle)

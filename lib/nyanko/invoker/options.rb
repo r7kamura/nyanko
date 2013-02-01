@@ -14,12 +14,12 @@ module Nyanko
         @args = args
       end
 
-      def [](key)
-        send(key)
+      def unit_name
+        @args[0]
       end
 
-      def functions
-        @args.first.is_a?(Array) ? @args : [[@args[0], @args[1]]]
+      def label
+        @args[1]
       end
 
       def locals
