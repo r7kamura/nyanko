@@ -9,6 +9,7 @@ module Nyanko
         :enable_logger,
         :proxy_method_name,
         :raise_error,
+        :resolver,
         :units_directory_path
       )
 
@@ -20,6 +21,7 @@ module Nyanko
         self.enable_logger        = true
         self.proxy_method_name    = :unit
         self.raise_error          = Rails.env.development?
+        self.resolver             = ActionView::OptimizedFileSystemResolver
         self.units_directory_path = "app/units"
       end
     end

@@ -81,7 +81,7 @@ module Nyanko
       end
 
       def resolver
-        @resolver ||= ActionView::OptimizedFileSystemResolver.new(view_path)
+        @resolver ||= Config.resolver.new(view_path)
       end
 
       def extender
