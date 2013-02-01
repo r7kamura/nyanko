@@ -25,6 +25,10 @@ module ExampleUnit
     function(:default) do
       run_default
     end
+
+    function(:render) do
+      render_to_string :partial => "/test", :locals => { :local => "test" }
+    end
   end
 
   scope(:view) do
@@ -50,6 +54,10 @@ module ExampleUnit
 
     function(:helper) do
       unit.helper
+    end
+
+    function(:render) do
+      render "/test", :local => "test"
     end
   end
 

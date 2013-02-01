@@ -36,6 +36,18 @@ module Nyanko
         view.invoke(:example_unit, :helper, :type => :plain).should == "helper"
       end
 
+      context "when invoked in view" do
+        it "invokes with partial view" do
+          view.invoke(:example_unit, :render, :type => :plain).should == "test\n"
+        end
+      end
+
+      context "when invoked in controller" do
+        it "invokes with unit views path" do
+          controller.invoke(:example_unit, :render, :type => :plain).should == "test\n"
+        end
+      end
+
       context "when short-hand style args is passed" do
         it "recognizes args as locals option" do
           view.invoke(:example_unit, :locals, :key => "value").should ==
