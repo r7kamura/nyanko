@@ -24,15 +24,19 @@ module Nyanko
       end.new
     end
 
+    let(:options) do
+      { :type => :plain }
+    end
+
     describe ".invoke" do
       it "invokes block with given context and stacked unit" do
-        described_class.new(unit, :label) { current_unit }.invoke(context).should == unit
+        described_class.new(unit, :label) { current_unit }.invoke(context, options).should == unit
       end
 
 
       context "when context is a view" do
         it "invokes with unit's view path" do
-          described_class.new(unit, :label) { path }.invoke(context).should == unit.view_path
+          described_class.new(unit, :label) { path }.invoke(context, options).should == unit.view_path
         end
       end
     end

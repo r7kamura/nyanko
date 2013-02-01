@@ -21,7 +21,11 @@ module Nyanko
     def invoke(context, options = {})
       with_unit_stack(context) do
         with_unit_view_path(context) do
-          context.instance_eval(&block)
+          capture_exception(context) do
+            result = context.instance_eval(&block)
+            result = decorate(result, context, options[:type]) if context.view?
+            result
+          end
         end
       end
     end
@@ -58,6 +62,24 @@ module Nyanko
       yield
     ensure
       context.view_paths.paths.shift
+    end
+
+    def capture_exception(context)
+      yield
+    rescue Exception => exception
+      ExceptionHandler.handle(exception, unit)
+      context.run_default
+    end
+
+    def decorate(str, context, type)
+      case type
+      when :plain
+        str
+      when :inline
+        context.content_tag(:span, str, :class => css_classes)
+      else
+        context.content_tag(:div, str, :class => css_classes)
+      end
     end
   end
 end

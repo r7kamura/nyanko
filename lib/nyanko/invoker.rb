@@ -5,20 +5,15 @@ module Nyanko
   module Invoker
     def invoke(*args, &block)
       options = Options.new(*args)
-      defaults_stack << block
-      unit_locals_stack << options.locals
-      function = FunctionFinder.find(self, options)
-      result   = function.invoke(self, options.invoke_options)
-      result   = surround_with_html_tag(result, function, options) if view?
-      result
-    rescue FunctionFinder::FunctionNotFound
-      run_default
-    rescue Exception => exception
-      ExceptionHandler.handle(exception, function.try(:unit))
-      run_default
-    ensure
-      defaults_stack.pop
-      unit_locals_stack.pop
+      __with_default_stack(block) do
+        __with_unit_locals_stack(options.locals) do
+          if function = FunctionFinder.find(self, options)
+            function.invoke(self, options.invoke_options)
+          else
+            run_default
+          end
+        end
+      end
     end
 
     def units
@@ -30,45 +25,77 @@ module Nyanko
     end
 
     def run_default
-      if block = defaults_stack.last
-        if view?
-          capture(&block)
-        else
-          instance_exec(&block)
-        end
-      end
+      __invoke_default_block if __has_default_block?
     end
 
     private
 
-    # Search shared method or locals variable
     def method_missing(method_name, *args, &block)
-      if (methods = units.last.try(:shared_methods)) && block = methods[method_name]
-        self.instance_exec(*args, &block)
-      elsif args.empty? && value = (unit_locals_stack.last || {})[method_name]
-        value
+      if shared_method = __find_shared_method(method_name)
+        instance_exec(*args, &shared_method)
+      elsif args.empty? && local = __find_unit_local(method_name)
+        local
       else
         super
       end
     end
 
-    def defaults_stack
-      @defaults_stack ||= []
+    def __find_unit_local(method_name)
+      __current_unit_locals[method_name]
     end
 
-    def unit_locals_stack
-      @unit_locals_stack ||= []
+    def __current_unit_locals
+      __unit_locals_stack.last || {}
     end
 
-    def surround_with_html_tag(str, function, options)
-      case options.type
-      when :plain
-        str
-      when :inline
-        content_tag(:span, str, :class => function.css_classes)
+    def __unit_locals_stack
+      @__unit_locals_stack ||= []
+    end
+
+    def __find_shared_method(method_name)
+      __current_shared_methods[method_name]
+    end
+
+    def __current_shared_methods
+      __current_unit.try(:shared_methods) || {}
+    end
+
+    def __current_unit
+      units.last
+    end
+
+    def __defaults_stack
+      @__defaults_stack ||= []
+    end
+
+    def __default_block
+      __defaults_stack.last
+    end
+
+    def __has_default_block?
+      !!__default_block
+    end
+
+    def __invoke_default_block
+      if view?
+        capture(&__default_block)
       else
-        content_tag(:div, str, :class => function.css_classes)
+        instance_exec(&__default_block)
       end
+    end
+
+    def __with_default_stack(default)
+      __defaults_stack << default
+      yield
+    ensure
+      __defaults_stack.pop
+    end
+
+    def __with_unit_locals_stack(locals)
+      __unit_locals_stack << locals
+      yield
+    ensure
+      __unit_locals_stack.pop
     end
   end
 end

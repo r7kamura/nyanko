@@ -1,10 +1,8 @@
 module Nyanko
   module Invoker
     class FunctionFinder
-      FunctionNotFound = Class.new(StandardError)
-
       def self.find(context, options)
-        new(context, options).find!
+        new(context, options).find
       end
 
       attr_reader :context, :options
@@ -14,10 +12,6 @@ module Nyanko
       def initialize(context, options)
         @context = context
         @options = options
-      end
-
-      def find!
-        find or raise_error
       end
 
       def find
@@ -38,14 +32,6 @@ module Nyanko
 
       def active?
         unit.try(:active?, context, active_if_options)
-      end
-
-      def raise_error
-        raise FunctionNotFound, error_message
-      end
-
-      def error_message
-        "The function for #{[unit_name, label]} is not found"
       end
     end
   end
