@@ -14,7 +14,7 @@ module Nyanko
     rescue FunctionFinder::FunctionNotFound
       run_default
     rescue Exception => exception
-      ExceptionHandler.handle(exception)
+      ExceptionHandler.handle(exception, function.try(:unit))
       run_default
     ensure
       defaults_stack.pop

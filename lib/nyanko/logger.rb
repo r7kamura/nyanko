@@ -35,7 +35,7 @@ module Nyanko
 
       def content
         if @object.is_a?(Exception)
-          "#{klass}#{body}\n#{backtrace}"
+          "#{klass}#{body}#{backtrace}"
         else
           @object.to_s
         end
@@ -52,8 +52,15 @@ module Nyanko
       end
 
       def backtrace
-        lines = @object.backtrace[0...Config.backtrace_limit]
-        lines.map {|line| "  #{line}" }.join("\n")
+        if has_backtrace?
+          lines = @object.backtrace[0...Config.backtrace_limit]
+          str   = lines.map {|line| "  #{line}" }.join("\n")
+          "\n#{str}"
+        end
+      end
+
+      def has_backtrace?
+        @object.backtrace
       end
     end
   end

@@ -49,6 +49,15 @@ module Nyanko
         ActiveIf::Any.new(*labels)
       end
 
+      def raise_error
+        @raise_error = true
+      end
+      alias_method :propagates_errors, :raise_error
+
+      def raise_error?
+        @raise_error
+      end
+
       def unit_name
         @unit_name ||= name.underscore.to_sym
       end
