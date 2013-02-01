@@ -7,10 +7,12 @@ module Nyanko
     def enable_unit(unit_name)
       Test.activations[unit_name] = true
     end
+    alias_method :enable_ext, :enable_unit
 
     def disable_unit(unit_name)
       Test.activations[unit_name] = false
     end
+    alias_method :disable_ext, :disable_unit
   end
 
   module Unit
