@@ -5,7 +5,6 @@ module Nyanko
         :active_if_options => true,
         :as                => true,
         :capture           => true,
-        :if                => true,
         :locals            => true,
         :type              => true,
       }
@@ -33,10 +32,6 @@ module Nyanko
 
       def as
         options[:as]
-      end
-
-      def dependencies
-        options[:if]
       end
 
       def capture
