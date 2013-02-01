@@ -23,3 +23,5 @@ RSpec.configure do |config|
     Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
   end
 end
+
+Nyanko::Config.units_directory_path = File.expand_path("../fixtures/units", __FILE__)
