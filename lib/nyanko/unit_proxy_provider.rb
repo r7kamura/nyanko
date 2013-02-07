@@ -7,6 +7,8 @@ module Nyanko
       include Helper
     end
 
+    # Define #unit method in this class when #unit is called in first time.
+    # Change Config.proxy_method_name if you want to change this method name.
     def method_missing(method_name, *args, &block)
       if Array.wrap(Config.proxy_method_name).include?(method_name)
         UnitProxyProvider.class_eval do
