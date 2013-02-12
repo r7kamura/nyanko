@@ -80,5 +80,15 @@ module Nyanko
         log.should == ""
       end
     end
+
+    context "when Rails.logger is nil" do
+      before do
+        Rails.stub(:logger)
+      end
+
+      it "does notihng" do
+        expect { described_class.debug(exception) }.not_to raise_error(NoMethodError)
+      end
+    end
   end
 end

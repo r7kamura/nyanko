@@ -5,7 +5,7 @@ module Nyanko
       ::Logger::Severity.constants.each do |level|
         method_name = level.downcase
         define_method(method_name) do |message|
-          logger.send(method_name, decorate(message)) if Config.enable_logger
+          logger.try(method_name, decorate(message)) if Config.enable_logger
         end
       end
 
