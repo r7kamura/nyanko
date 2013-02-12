@@ -37,9 +37,10 @@ module Nyanko
         %w[belongs_to has_many has_one].each do |method_name|
           class_eval <<-EOS
             def #{method_name}(*args, &block)
-              name    = @prefix + args.shift.to_s
+              label   = args.shift.to_s
+              name    = @prefix + label
               options = args.extract_options!
-              options = options.reverse_merge(:class_name => @mod.to_s)
+              options = options.reverse_merge(:class_name => label.singularize.camelize)
               args << options
               @mod.#{method_name}(name.to_sym, *args, &block)
             end

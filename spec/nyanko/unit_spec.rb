@@ -122,6 +122,8 @@ module Nyanko
           expand(:ExampleModel) do
             scope :active, lambda { where(:deleted_at => nil) }
 
+            has_one :user
+
             def test
               "test"
             end
@@ -144,6 +146,12 @@ module Nyanko
               define_method(name) { "scoped" }
             end
           end
+
+          def self.has_one(name, *args)
+            singleton_class.class_eval do
+              define_method(name) { args }
+            end
+          end
         end
       end
 
@@ -155,8 +163,12 @@ module Nyanko
         ExampleModel.__example_unit_test.should == "test"
       end
 
-      it "defines association methods with prefix" do
+      it "defines scope method with prefix" do
         ExampleModel.__example_unit_active.should == "scoped"
+      end
+
+      it "defines has_one association method with prefix" do
+        ExampleModel.__example_unit_user.should == [:class_name => "User"]
       end
     end
 
