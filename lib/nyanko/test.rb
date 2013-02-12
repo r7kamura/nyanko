@@ -1,7 +1,13 @@
 module Nyanko
   module Test
-    def self.activations
-      @activations ||= {}
+    class << self
+      def activations
+        @activations ||= {}
+      end
+
+      def included(base)
+        base.send :include, UnitProxyProvider
+      end
     end
 
     def enable_unit(unit_name)
