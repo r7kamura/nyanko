@@ -4,7 +4,6 @@ module Nyanko
 
     included do
       extend UnitProxyProvider
-      include Helper
     end
 
     # Define #unit method in this class when #unit is called in first time.
