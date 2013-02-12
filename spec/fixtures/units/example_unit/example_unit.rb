@@ -44,6 +44,10 @@ module ExampleUnit
       key
     end
 
+    function(:falsy) do
+      key.nil?
+    end
+
     function(:shared) do
       shared("args")
     end

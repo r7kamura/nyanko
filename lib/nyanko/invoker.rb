@@ -33,14 +33,18 @@ module Nyanko
     def method_missing(method_name, *args, &block)
       if shared_method = __find_shared_method(method_name)
         instance_exec(*args, &shared_method)
-      elsif args.empty? && local = __find_unit_local(method_name)
-        local
+      elsif args.empty? && __find_unit_local(method_name)
+        __fetch_unit_local(method_name)
       else
         super
       end
     end
 
     def __find_unit_local(method_name)
+      __current_unit_locals.has_key?(method_name)
+    end
+
+    def __fetch_unit_local(method_name)
       __current_unit_locals[method_name]
     end
 

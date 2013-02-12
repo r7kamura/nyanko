@@ -28,6 +28,11 @@ module Nyanko
           should == "value"
       end
 
+      it "invokes with falsy locals" do
+        view.invoke(:example_unit, :falsy, :locals => { :key => nil }, :type => :plain).
+          should == true
+      end
+
       it "invokes with shared method" do
         view.invoke(:example_unit, :shared, :type => :plain).should == "shared args"
       end
