@@ -23,7 +23,7 @@ module Nyanko
         with_unit_view_path(context) do
           capture_exception(context) do
             result = context.instance_eval(&block)
-            result = decorate(result, context, options[:type]) if context.view?
+            result = decorate(result, context, options[:type]) if context.view? && result.present?
             result
           end
         end

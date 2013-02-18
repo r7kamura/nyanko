@@ -63,6 +63,10 @@ module ExampleUnit
     function(:render) do
       render "/test", :local => "test"
     end
+
+    function(:blank) do
+      " "
+    end
   end
 
   helpers do

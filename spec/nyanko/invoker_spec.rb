@@ -79,8 +79,14 @@ module Nyanko
       end
 
       context "when type is :plain" do
-        it "invokes defined function for current context and return result" do
+        it "does not surround result with html element" do
           view.invoke(:example_unit, :test, :type => :plain).should == "test"
+        end
+      end
+
+      context "when the result is blank" do
+        it "does not surround result with html element" do
+          view.invoke(:example_unit, :blank).should == " "
         end
       end
 
