@@ -18,6 +18,8 @@ module Nyanko
       end
     end
 
+    attr_reader :conditions, :options
+
     def initialize(*conditions, &block)
       @options    = conditions.extract_options!
       @conditions = conditions
@@ -30,7 +32,7 @@ module Nyanko
 
     def blocks
       @blocks ||= begin
-        @conditions.map do |condition|
+        conditions.map do |condition|
           condition.is_a?(Any) ? condition.to_block : self.class.find(condition)
         end << @block
       end.compact
